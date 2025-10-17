@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@/components/providers/auth-provider";
+import { queryKeys } from "@/lib/query-keys";
 import { auth } from "@/lib/supabase/auth-helpers";
 
 export function useUser() {
   const { user, isLoading } = useAuth();
 
   return useQuery({
-    queryKey: ["user"],
+    queryKey: queryKeys.user.all,
     queryFn: async () => {
       if (user) {
         return user;

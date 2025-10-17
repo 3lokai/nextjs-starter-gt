@@ -21,6 +21,32 @@ export const metadata: Metadata = {
   title: "Next.js Starter",
   description:
     "A modern Next.js starter with TypeScript, Tailwind CSS, shadcn/ui, and Supabase",
+  openGraph: {
+    title: "Next.js Starter",
+    description:
+      "A modern Next.js starter with TypeScript, Tailwind CSS, shadcn/ui, and Supabase",
+    url: "https://github.com/3lokai/nextjs-starter-gt",
+    siteName: "Next.js Starter",
+    images: [
+      {
+        url: "/api/og?title=Next.js%20Starter&description=A%20modern%20Next.js%20starter%20with%20TypeScript%2C%20Tailwind%20CSS%2C%20shadcn%2Fui%2C%20and%20Supabase",
+        width: 1200,
+        height: 630,
+        alt: "Next.js Starter",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Next.js Starter",
+    description:
+      "A modern Next.js starter with TypeScript, Tailwind CSS, shadcn/ui, and Supabase",
+    images: [
+      "/api/og?title=Next.js%20Starter&description=A%20modern%20Next.js%20starter%20with%20TypeScript%2C%20Tailwind%20CSS%2C%20shadcn%2Fui%2C%20and%20Supabase",
+    ],
+  },
 };
 
 export default function RootLayout({

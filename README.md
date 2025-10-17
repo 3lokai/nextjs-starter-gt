@@ -90,7 +90,8 @@ nextjs-starter-gt/
 ├── src/
 │   ├── app/               # Next.js App Router
 │   │   ├── api/
-│   │   │   └── health/    # Health check endpoint
+│   │   │   ├── health/    # Health check endpoint
+│   │   │   └── og/        # Open Graph image generator
 │   │   ├── dashboard/     # Protected route example
 │   │   ├── login/         # Auth page example
 │   │   ├── error.tsx      # Error boundary
@@ -366,6 +367,16 @@ function MyComponent() {
 }
 ```
 
+## 🤖 AI Development Tools
+
+This starter includes AI-powered development tools:
+
+- **`.cursor/`** - Cursor AI editor configuration and rules
+- **`.kilocode/`** - Kilocode AI tooling for enhanced development
+- **`.rules`** - AI coding rules and guidelines for consistent code generation
+
+These artifacts help maintain code quality and consistency when using AI assistants. They're safe to commit and share with your team.
+
 ## 🚀 Common Tasks
 
 ### Adding a New Page
@@ -453,6 +464,23 @@ The starter includes built-in error handling:
 - `not-found.tsx` - 404 page for unknown routes  
 - `loading.tsx` - Loading UI for async operations
 - `/api/health` - Health check endpoint (returns status, version, environment)
+- `/api/og` - Dynamic Open Graph image generator for social sharing
+
+### Open Graph Image Generator
+Generate dynamic OG images for social sharing:
+
+```bash
+# Basic OG image
+curl "http://localhost:3000/api/og?title=My%20Page&description=This%20is%20my%20page"
+
+# With custom theme
+curl "http://localhost:3000/api/og?title=My%20Page&description=This%20is%20my%20page&theme=dark"
+```
+
+**Parameters:**
+- `title` - Page title (default: "Next.js Starter")
+- `description` - Page description
+- `theme` - "light" or "dark" (default: "light")
 
 ### Health Check Endpoint
 Test the health endpoint:
