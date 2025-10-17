@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/page-shell";
+import { useAuth } from "@/components/providers/auth-provider";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,12 +14,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { auth } from "@/lib/supabase/auth-helpers";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { signIn } = useAuth();
   const router = useRouter();
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -26,7 +27,7 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const { error } = await auth.signIn(email, password);
+      const { error } = await signIn(email, password);
       if (error) {
         toast.error(error.message);
       } else {

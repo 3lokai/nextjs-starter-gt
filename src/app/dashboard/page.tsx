@@ -1,9 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { PageShell } from "@/components/page-shell";
+import { useAuth } from "@/components/providers/auth-provider";
+import { useModal } from "@/components/providers/modal-provider";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,37 +13,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { auth } from "@/lib/supabase/auth-helpers";
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { user, isLoading, signOut } = useAuth();
+  const { openModal } = useModal();
   const router = useRouter();
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const { user: authUser, error } = await auth.getUser();
-        if (error) {
-          toast.error("Failed to get user");
-          router.push("/login");
-        } else {
-          setUser(authUser);
-        }
-      } catch (_error) {
-        toast.error("An unexpected error occurred");
-        router.push("/login");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    getUser();
-  }, [router]);
 
   const handleSignOut = async () => {
     try {
-      const { error } = await auth.signOut();
+      const { error } = await signOut();
       if (error) {
         toast.error(error.message);
       } else {
@@ -52,6 +31,19 @@ export default function DashboardPage() {
     } catch (_error) {
       toast.error("An unexpected error occurred");
     }
+  };
+
+  const showConfirmationModal = () => {
+    openModal({
+      type: "confirmation",
+      title: "Confirm Action",
+      description: "Are you sure you want to perform this action?",
+      confirmText: "Yes, continue",
+      cancelText: "Cancel",
+      onConfirm: () => {
+        toast.success("Action confirmed!");
+      },
+    });
   };
 
   if (isLoading) {
@@ -112,7 +104,10 @@ export default function DashboardPage() {
           </Card>
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-4">
+          <Button onClick={showConfirmationModal} variant="outline">
+            Show Modal Demo
+          </Button>
           <Button onClick={handleSignOut} variant="outline">
             Sign Out
           </Button>

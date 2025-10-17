@@ -18,6 +18,12 @@ A modern, production-ready Next.js starter template with TypeScript, Tailwind CS
 - **Storage** - File upload and management
 - **Row Level Security (RLS)** - Database security policies
 
+### State Management & UI
+- **Auth Provider** - Centralized authentication state management
+- **Modal Provider** - Global modal system with shadcn Dialog
+- **Theme Provider** - Dark/light mode with next-themes
+- **Toast Notifications** - Sonner for user feedback
+
 ### Development Tools
 - **Biome** - Fast linter and formatter (replaces ESLint/Prettier)
 - **Ultracite** - AI-ready code quality tools
@@ -91,10 +97,16 @@ nextjs-starter-gt/
 │   │   ├── not-found.tsx  # 404 page
 │   │   ├── layout.tsx     # Root layout
 │   │   ├── page.tsx       # Homepage
-│   │   └── globals.css    # Global styles
-│   ├── components/
+│   ├── components/        # React components
+│   │   ├── providers/     # Context providers
+│   │   │   ├── auth-provider.tsx    # Authentication state
+│   │   │   ├── modal-provider.tsx   # Global modal system
+│   │   │   └── theme-provider.tsx   # Dark/light mode
 │   │   ├── ui/            # shadcn/ui components
-│   │   ├── providers/     # React context providers
+│   │   │   ├── button.tsx
+│   │   │   ├── dialog.tsx
+│   │   │   ├── input.tsx
+│   │   │   └── ...        # Other UI components
 │   │   ├── header.tsx     # Site header with theme toggle
 │   │   └── page-shell.tsx # Layout wrapper
 │   ├── lib/
@@ -192,18 +204,33 @@ The starter includes dark/light mode support using `next-themes`:
 
 ## 🎯 Features
 
+### Core Framework
 - ✅ **Next.js 15** with App Router and Turbopack
 - ✅ **React 19** with latest features
 - ✅ **TypeScript** strict mode with path aliases
 - ✅ **Tailwind CSS v4** with CSS-first approach (no PostCSS config)
 - ✅ **shadcn/ui** components with Radix UI primitives
+
+### Backend & Database
 - ✅ **Supabase** integration with SSR support
-- ✅ **Dark/Light mode** theming with next-themes
+- ✅ **Authentication** with centralized state management
+- ✅ **Real-time** data synchronization
+- ✅ **Row Level Security (RLS)** for database security
+
+### State Management & UI
+- ✅ **Auth Provider** - Centralized authentication with React Context
+- ✅ **Modal Provider** - Global modal system with shadcn Dialog
+- ✅ **Theme Provider** - Dark/light mode with next-themes
+- ✅ **Toast Notifications** - Sonner for user feedback
+
+### Development & Quality
 - ✅ **Biome** linting and formatting (replaces ESLint/Prettier)
 - ✅ **Ultracite** AI-ready code quality tools
 - ✅ **Husky** pre-commit hooks with lint-staged
 - ✅ **GitHub Actions** CI/CD pipeline
 - ✅ **Environment validation** with Zod
+
+### Production Ready
 - ✅ **Error boundaries** (`error.tsx`, `not-found.tsx`, `loading.tsx`)
 - ✅ **Health check** API endpoint (`/api/health`)
 - ✅ **Auth middleware** for protected routes (`/dashboard/*`)
@@ -225,6 +252,60 @@ This starter works with any platform that supports Next.js:
 - Railway
 - DigitalOcean App Platform
 - AWS Amplify
+
+## 🎯 Using the Providers
+
+### Auth Provider
+The `AuthProvider` provides centralized authentication state management:
+
+```tsx
+import { useAuth } from "@/components/providers/auth-provider";
+
+function MyComponent() {
+  const { user, isLoading, signIn, signOut } = useAuth();
+  
+  if (isLoading) return <div>Loading...</div>;
+  
+  return (
+    <div>
+      {user ? (
+        <div>
+          <p>Welcome, {user.email}!</p>
+          <button onClick={signOut}>Sign Out</button>
+        </div>
+      ) : (
+        <button onClick={() => signIn(email, password)}>Sign In</button>
+      )}
+    </div>
+  );
+}
+```
+
+### Modal Provider
+The `ModalProvider` provides a global modal system:
+
+```tsx
+import { useModal } from "@/components/providers/modal-provider";
+
+function MyComponent() {
+  const { openModal } = useModal();
+  
+  const showConfirmation = () => {
+    openModal({
+      type: "confirmation",
+      title: "Confirm Action",
+      description: "Are you sure you want to continue?",
+      confirmText: "Yes, continue",
+      cancelText: "Cancel",
+      onConfirm: () => {
+        console.log("Confirmed!");
+      },
+    });
+  };
+  
+  return <button onClick={showConfirmation}>Show Modal</button>;
+}
+```
 
 ## 🚀 Common Tasks
 

@@ -23,7 +23,8 @@
         "noExplicitAny": "off",
         "noUselessEscapeInString": "off",
         "useIterableCallbackReturn": "off",
-        "noShadowRestrictedNames": "off"
+        "noShadowRestrictedNames": "off",
+        "noConsole": "off"
       },
       "style": {
         "noNonNullAssertion": "off",
