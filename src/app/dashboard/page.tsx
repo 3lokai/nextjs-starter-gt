@@ -13,11 +13,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useUser } from "@/hooks/use-user";
 
 export default function DashboardPage() {
-  const { user, isLoading, signOut } = useAuth();
+  const { signOut } = useAuth();
   const { openModal } = useModal();
   const router = useRouter();
+
+  // Use TanStack Query for user data
+  const { data: user, isLoading, error } = useUser();
 
   const handleSignOut = async () => {
     try {
@@ -53,6 +57,28 @@ export default function DashboardPage() {
           <div className="text-center">
             <h2 className="font-semibold text-lg">Loading...</h2>
             <p className="text-muted-foreground text-sm">Please wait</p>
+          </div>
+        </div>
+      </PageShell>
+    );
+  }
+
+  if (error) {
+    return (
+      <PageShell>
+        <div className="flex min-h-[calc(100vh-8rem)] items-center justify-center">
+          <div className="text-center">
+            <h2 className="font-semibold text-destructive text-lg">Error</h2>
+            <p className="text-muted-foreground text-sm">
+              Failed to load user data. Please try again.
+            </p>
+            <Button
+              className="mt-4"
+              onClick={() => window.location.reload()}
+              variant="outline"
+            >
+              Retry
+            </Button>
           </div>
         </div>
       </PageShell>

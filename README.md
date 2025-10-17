@@ -21,6 +21,7 @@ A modern, production-ready Next.js starter template with TypeScript, Tailwind CS
 ### State Management & UI
 - **Auth Provider** - Centralized authentication state management
 - **Modal Provider** - Global modal system with shadcn Dialog
+- **Query Provider** - TanStack Query for server state management
 - **Theme Provider** - Dark/light mode with next-themes
 - **Toast Notifications** - Sonner for user feedback
 
@@ -101,6 +102,7 @@ nextjs-starter-gt/
 │   │   ├── providers/     # Context providers
 │   │   │   ├── auth-provider.tsx    # Authentication state
 │   │   │   ├── modal-provider.tsx   # Global modal system
+│   │   │   ├── query-provider.tsx   # TanStack Query setup
 │   │   │   └── theme-provider.tsx   # Dark/light mode
 │   │   ├── ui/            # shadcn/ui components
 │   │   │   ├── button.tsx
@@ -109,6 +111,9 @@ nextjs-starter-gt/
 │   │   │   └── ...        # Other UI components
 │   │   ├── header.tsx     # Site header with theme toggle
 │   │   └── page-shell.tsx # Layout wrapper
+│   ├── hooks/             # Custom React hooks
+│   │   ├── use-user.ts           # User data query
+│   │   └── use-supabase-query.ts # Supabase query utilities
 │   ├── lib/
 │   │   ├── supabase/      # Supabase configuration
 │   │   │   ├── client.ts  # Browser client
@@ -220,6 +225,7 @@ The starter includes dark/light mode support using `next-themes`:
 ### State Management & UI
 - ✅ **Auth Provider** - Centralized authentication with React Context
 - ✅ **Modal Provider** - Global modal system with shadcn Dialog
+- ✅ **Query Provider** - TanStack Query for server state management
 - ✅ **Theme Provider** - Dark/light mode with next-themes
 - ✅ **Toast Notifications** - Sonner for user feedback
 
@@ -304,6 +310,59 @@ function MyComponent() {
   };
   
   return <button onClick={showConfirmation}>Show Modal</button>;
+}
+```
+
+### Query Provider (TanStack Query)
+The `QueryProvider` provides powerful data fetching and caching:
+
+```tsx
+import { useUser } from "@/hooks/use-user";
+import { useSupabaseQuery, useSupabaseMutation } from "@/hooks/use-supabase-query";
+
+function MyComponent() {
+  // Use the built-in user query
+  const { data: user, isLoading, error } = useUser();
+  
+  // Custom Supabase query
+  const { data: posts, isLoading: postsLoading } = useSupabaseQuery(
+    ["posts"],
+    async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase.from("posts").select("*");
+      if (error) throw error;
+      return data;
+    }
+  );
+  
+  // Mutation with automatic cache invalidation
+  const createPost = useSupabaseMutation(
+    async (postData) => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("posts")
+        .insert([postData])
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    {
+      invalidateQueries: [["posts"]], // Refetch posts after creating
+    }
+  );
+  
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  
+  return (
+    <div>
+      <h1>Welcome, {user?.email}!</h1>
+      <button onClick={() => createPost.mutate({ title: "New Post" })}>
+        Create Post
+      </button>
+    </div>
+  );
 }
 ```
 
