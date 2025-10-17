@@ -93,12 +93,18 @@ nextjs-starter-gt/
 │   │   │   ├── health/    # Health check endpoint
 │   │   │   └── og/        # Open Graph image generator
 │   │   ├── dashboard/     # Protected route example
+│   │   │   ├── layout.tsx # Dashboard metadata
+│   │   │   └── page.tsx   # Dashboard page
 │   │   ├── login/         # Auth page example
+│   │   │   ├── layout.tsx # Login metadata
+│   │   │   └── page.tsx   # Login page
 │   │   ├── error.tsx      # Error boundary
 │   │   ├── loading.tsx    # Loading UI
 │   │   ├── not-found.tsx  # 404 page
 │   │   ├── layout.tsx     # Root layout
 │   │   ├── page.tsx       # Homepage
+│   │   ├── robots.ts      # SEO robots configuration
+│   │   └── sitemap.ts     # XML sitemap generation
 │   ├── components/        # React components
 │   │   ├── providers/     # Context providers
 │   │   │   ├── auth-provider.tsx    # Authentication state
@@ -465,6 +471,8 @@ The starter includes built-in error handling:
 - `loading.tsx` - Loading UI for async operations
 - `/api/health` - Health check endpoint (returns status, version, environment)
 - `/api/og` - Dynamic Open Graph image generator for social sharing
+- `/robots.txt` - SEO robots configuration
+- `/sitemap.xml` - XML sitemap for search engines
 
 ### Open Graph Image Generator
 Generate dynamic OG images for social sharing:
@@ -481,6 +489,30 @@ curl "http://localhost:3000/api/og?title=My%20Page&description=This%20is%20my%20
 - `title` - Page title (default: "Next.js Starter")
 - `description` - Page description
 - `theme` - "light" or "dark" (default: "light")
+
+### SEO & Metadata
+The starter includes comprehensive SEO features:
+
+- **Title templates** - Automatic page titles with site name
+- **Open Graph** - Dynamic OG images for social sharing
+- **Twitter Cards** - Optimized for Twitter sharing
+- **Robots.txt** - Search engine crawling rules
+- **Sitemap.xml** - Automatic XML sitemap generation
+- **Canonical URLs** - Proper URL canonicalization
+- **Meta tags** - Keywords, descriptions, and author info
+
+**Example page metadata:**
+```tsx
+export const metadata: Metadata = {
+  title: "My Page",
+  description: "Page description",
+  openGraph: {
+    title: "My Page",
+    description: "Page description",
+    images: ["/api/og?title=My%20Page&description=Page%20description"],
+  },
+};
+```
 
 ### Health Check Endpoint
 Test the health endpoint:

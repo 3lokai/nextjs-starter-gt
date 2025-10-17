@@ -18,15 +18,40 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Starter",
+  metadataBase: new URL("https://github.com/3lokai/nextjs-starter-gt"),
+  title: {
+    default: "Next.js Starter",
+    template: "%s | Next.js Starter",
+  },
   description:
     "A modern Next.js starter with TypeScript, Tailwind CSS, shadcn/ui, and Supabase",
+  keywords: [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Tailwind CSS",
+    "shadcn/ui",
+    "Supabase",
+    "starter",
+    "template",
+    "boilerplate",
+  ],
+  authors: [{ name: "3lokai" }],
+  creator: "3lokai",
+  publisher: "3lokai",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://github.com/3lokai/nextjs-starter-gt",
+    siteName: "Next.js Starter",
     title: "Next.js Starter",
     description:
       "A modern Next.js starter with TypeScript, Tailwind CSS, shadcn/ui, and Supabase",
-    url: "https://github.com/3lokai/nextjs-starter-gt",
-    siteName: "Next.js Starter",
     images: [
       {
         url: "/api/og?title=Next.js%20Starter&description=A%20modern%20Next.js%20starter%20with%20TypeScript%2C%20Tailwind%20CSS%2C%20shadcn%2Fui%2C%20and%20Supabase",
@@ -35,8 +60,6 @@ export const metadata: Metadata = {
         alt: "Next.js Starter",
       },
     ],
-    locale: "en_US",
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
@@ -46,6 +69,20 @@ export const metadata: Metadata = {
     images: [
       "/api/og?title=Next.js%20Starter&description=A%20modern%20Next.js%20starter%20with%20TypeScript%2C%20Tailwind%20CSS%2C%20shadcn%2Fui%2C%20and%20Supabase",
     ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code",
   },
 };
 
